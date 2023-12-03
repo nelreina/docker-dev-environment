@@ -14,6 +14,11 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.postgres.rule=Host(`postgres.localhost`)"
+      - "traefik.http.services.postgres.loadbalancer.server.port=5432"
+      # - "traefik.http.services.postgres.loadbalancer.server.port=5432"
 
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
@@ -26,6 +31,8 @@ services:
       - traefik.http.routers.pocketbase.entrypoints=web
       # - traefik.http.routers.pocketbase.middlewares=auth
       # - traefik.http.middlewares.auth.basicauth.users=${POCKETBASE_USERNAME}:${POCKETBASE_PASSWORD}
+    depends_on:
+      - traefik
 
   redis:
     image: redis/redis-stack:latest
@@ -56,7 +63,8 @@ services:
       - "--providers.docker=true"
       - "--providers.docker.exposedbydefault=false"
       - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
+      # - "--entrypoints.postgres.address=:5432"
+      # - "--entrypoints.websecure.address=:443"
       # - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
       # - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}"
       # - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
