@@ -35,15 +35,15 @@ services:
       - "2525:25"
     restart: unless-stopped
 
-  #  caddy:
-  #    image: caddy:latest
-  #    restart: unless-stopped
-  #    container_name: caddy
-  #    ports:
-  #      - 80:80
-  #      - 443:443
-  #    volumes:
-  #      - ./Caddyfile:/etc/caddy/Caddyfile
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - 5000:80
+      - 5443:443
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
 
   semaphore:
     restart: unless-stopped
