@@ -1,11 +1,10 @@
-version: "3.8"
 
 services:
   postgres:
     image: postgres:latest
     container_name: postgres-db
     environment:
-      # POSTGRES_DB: your_database_name
+      POSTGRES_DB: semaphore
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_TIMEZONE: America/Curacao
@@ -14,25 +13,12 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.postgres.rule=Host(`postgres.localhost`)"
-      - "traefik.http.services.postgres.loadbalancer.server.port=5432"
-      # - "traefik.http.services.postgres.loadbalancer.server.port=5432"
 
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
     container_name: pocketbase
     volumes:
       - pocketbase-data:/pb_data
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.pocketbase.rule=Host("pocketbase.localhost")
-      - traefik.http.routers.pocketbase.entrypoints=web
-      # - traefik.http.routers.pocketbase.middlewares=auth
-      # - traefik.http.middlewares.auth.basicauth.users=${POCKETBASE_USERNAME}:${POCKETBASE_PASSWORD}
-    depends_on:
-      - traefik
 
   redis:
     image: redis/redis-stack:latest
@@ -45,47 +31,48 @@ services:
     image: rnwood/smtp4dev:latest
     container_name: smtp4dev
     ports:
-      - "3000:80"
+      - "3080:80"
       - "2525:25"
     restart: unless-stopped
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.routers.smtp4dev.rule=Host("smtp4dev.localhost")
-    #   - traefik.http.routers.smtp4dev.entrypoints=web
-    # - traefik.http.routers.smtp4dev.middlewares=auth
-    # - traefik.http.middlewares.auth.basicauth.users=${SMTP4DEV_USERNAME}:${SMTP4DEV_PASSWORD}
 
-  traefik:
-    image: traefik:v3.0
-    restart: always
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      # - "--entrypoints.postgres.address=:5432"
-      # - "--entrypoints.websecure.address=:443"
-      # - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      # - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}"
-      # - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+  #  caddy:
+  #    image: caddy:latest
+  #    restart: unless-stopped
+  #    container_name: caddy
+  #    ports:
+  #      - 80:80
+  #      - 443:443
+  #    volumes:
+  #      - ./Caddyfile:/etc/caddy/Caddyfile
+
+  semaphore:
+    restart: unless-stopped
     ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      # - .traefik.yaml:/etc/traefik/traefik.yml:ro
-
-    container_name: traefik
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.routers.traefik.rule=Host("traefik.localhost")
-
+      - 3000:3000
+    image: semaphoreui/semaphore:latest
+    environment:
+      SEMAPHORE_DB_USER: postgres
+      SEMAPHORE_DB_PASS: ${POSTGRES_PASSWORD}
+      SEMAPHORE_DB_HOST: postgres-db # for postgres, change to: postgres
+      SEMAPHORE_DB_PORT: 5432 # change to 5432 for postgres
+      SEMAPHORE_DB_DIALECT: postgres # for postgres, change to: postgres
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_ADMIN_NAME: admin
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
+      TZ: UTC
+    depends_on:
+      - postgres # for postgres, change to: postgres
 networks:
   default:
     name: traefik
     external: true
 
 volumes:
+  semaphore-postgres: # to use postgres, switch to: semaphore-postgres
   pocketbase-data:
     driver: local
   postgres_data:
