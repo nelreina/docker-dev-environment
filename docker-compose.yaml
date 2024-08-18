@@ -14,31 +14,22 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.postgres.rule=Host(`postgres.localhost`)"
-      - "traefik.http.services.postgres.loadbalancer.server.port=5432"
-      # - "traefik.http.services.postgres.loadbalancer.server.port=5432"
 
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
     container_name: pocketbase
+    restart: unless-stopped
     volumes:
       - pocketbase-data:/pb_data
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.pocketbase.rule=Host("pocketbase.localhost")
-      - traefik.http.routers.pocketbase.entrypoints=web
-      # - traefik.http.routers.pocketbase.middlewares=auth
-      # - traefik.http.middlewares.auth.basicauth.users=${POCKETBASE_USERNAME}:${POCKETBASE_PASSWORD}
-    depends_on:
-      - traefik
+    ports:
+      - "8090:8090"
 
   redis:
     image: redis/redis-stack:latest
     container_name: redis
     ports:
       - "6379:6379"
+      - "8001:8001"
     restart: unless-stopped
 
   smtp4dev:
@@ -48,37 +39,26 @@ services:
       - "3000:80"
       - "2525:25"
     restart: unless-stopped
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.routers.smtp4dev.rule=Host("smtp4dev.localhost")
-    #   - traefik.http.routers.smtp4dev.entrypoints=web
-    # - traefik.http.routers.smtp4dev.middlewares=auth
-    # - traefik.http.middlewares.auth.basicauth.users=${SMTP4DEV_USERNAME}:${SMTP4DEV_PASSWORD}
 
-  traefik:
-    image: traefik:v3.0
-    restart: always
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--providers.docker.exposedbydefault=false"
-      - "--entrypoints.web.address=:80"
-      # - "--entrypoints.postgres.address=:5432"
-      # - "--entrypoints.websecure.address=:443"
-      # - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      # - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL}"
-      # - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+# myproject/docker-compose.yml
+  nginx:
+    image: nginx:latest
     ports:
-      - "80:80"
-      - "8080:8080"
+      - "8888:80"
+    container_name: nginx
+    restart: unless-stopped
     volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      # - .traefik.yaml:/etc/traefik/traefik.yml:ro
+      - ./static:/usr/share/nginx/html:ro
 
-    container_name: traefik
-    # labels:
-    #   - traefik.enable=true
-    #   - traefik.http.routers.traefik.rule=Host("traefik.localhost")
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: caddy
+    ports:
+      - "5050:80"
+    volumes:
+      - ./docker/Caddyfile:/etc/caddy/Caddyfile
+
 
 networks:
   default:
