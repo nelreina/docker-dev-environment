@@ -45,3 +45,6 @@
       path: /usr/local/bin/docker-compose
       mode: 0755
 
+  - name: Create docker network
+    command: docker network create local
+    ignore_errors: yes
