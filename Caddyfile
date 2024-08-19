@@ -1,21 +1,18 @@
-pb.localhost {
-	reverse_proxy localhost:8090
-}
-
-pocketbase.localhost {
+pblocal.localhost {
 	reverse_proxy localhost:8090
 }
 
 smtp.localhost {
+	reverse_proxy localhost:3080
+}
+ansible.localhost {
 	reverse_proxy localhost:3000
 }
-redis.localhost {
+redis-local.localhost {
 	reverse_proxy localhost:8001
 }
 
-app.localhost {
-	reverse_proxy localhost:5050
-}
 jupyter.localhost {
 	reverse_proxy localhost:10000
 }
+

@@ -1,11 +1,10 @@
-version: "3.8"
 
 services:
   postgres:
     image: postgres:latest
     container_name: postgres-db
     environment:
-      # POSTGRES_DB: your_database_name
+      POSTGRES_DB: semaphore
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_TIMEZONE: America/Curacao
@@ -18,11 +17,10 @@ services:
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
     container_name: pocketbase
-    restart: unless-stopped
-    volumes:
-      - pocketbase-data:/pb_data
     ports:
       - "8090:8090"
+    volumes:
+      - pocketbase-data:/pb_data
 
   redis:
     image: redis/redis-stack:latest
@@ -36,36 +34,48 @@ services:
     image: rnwood/smtp4dev:latest
     container_name: smtp4dev
     ports:
-      - "3000:80"
+      - "3080:80"
       - "2525:25"
     restart: unless-stopped
-
-# myproject/docker-compose.yml
-  nginx:
-    image: nginx:latest
-    ports:
-      - "8888:80"
-    container_name: nginx
-    restart: unless-stopped
-    volumes:
-      - ./static:/usr/share/nginx/html:ro
 
   caddy:
     image: caddy:latest
     restart: unless-stopped
     container_name: caddy
     ports:
-      - "5050:80"
+      - 80:80
+      - 443:443
     volumes:
-      - ./docker/Caddyfile:/etc/caddy/Caddyfile
+      - ./Caddyfile:/etc/caddy/Caddyfile
 
-
+  semaphore:
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    image: semaphoreui/semaphore:latest
+    environment:
+      SEMAPHORE_DB_USER: postgres
+      SEMAPHORE_DB_PASS: ${POSTGRES_PASSWORD}
+      SEMAPHORE_DB_HOST: postgres-db # for postgres, change to: postgres
+      SEMAPHORE_DB_PORT: 5432 # change to 5432 for postgres
+      SEMAPHORE_DB_DIALECT: postgres # for postgres, change to: postgres
+      SEMAPHORE_DB: semaphore
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ADMIN_PASSWORD: ${SEMAPHORE_ADMIN_PASSWORD}
+      SEMAPHORE_ADMIN_NAME: admin
+      SEMAPHORE_ADMIN_EMAIL: admin@localhost
+      SEMAPHORE_ADMIN: admin
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: ${SEMAPHORE_ACCESS_KEY_ENCRYPTION}
+      TZ: UTC
+    depends_on:
+      - postgres # for postgres, change to: postgres
 networks:
   default:
     name: traefik
     external: true
 
 volumes:
+  semaphore-postgres: # to use postgres, switch to: semaphore-postgres
   pocketbase-data:
     driver: local
   postgres_data:

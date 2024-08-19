@@ -1,0 +1,13 @@
+---
+- hosts: digital
+  become: true
+  tasks:
+    - name: Install Caddy
+      ansible.builtin.package:
+        name: caddy
+        state: latest
+    - name: Start Caddy service
+      service:
+        name: caddy
+        state: started
+        enabled: yes
