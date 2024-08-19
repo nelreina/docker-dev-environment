@@ -19,5 +19,5 @@ networks:
     external: true
 
 volumes:
-  pocketbase-data:
+  postgres_data:
     driver: local
