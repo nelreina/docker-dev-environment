@@ -15,8 +15,5 @@
     - name: Print the encrypted variable
       debug:
         msg: "{{ secret }}"
-
-    - name: Set environment variable
       environment:
         - IPHUB_STREAM: "{{ IPHUB_STREAM }}"
-      # shell: my_command
