@@ -3,6 +3,5 @@
   hosts: all
   become: true
   roles:
-    - caddy
     - docker
     - redis
