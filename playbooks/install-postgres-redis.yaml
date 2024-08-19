@@ -1,0 +1,8 @@
+---
+- hosts: digital
+  become: true
+  tasks:
+    - name: Copy docker-compose file
+      ansible.builtin.copy:
+        src: docker-compose-provision.yaml
+        dest: /root/docker-compose.yaml
