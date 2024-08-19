@@ -18,5 +18,5 @@
 
     - name: Set environment variable
       environment:
-        - IPHUB_STREAM: {{ IPHUB_STREAM }}
+        - IPHUB_STREAM: "{{ IPHUB_STREAM }}"
       # shell: my_command
