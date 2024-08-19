@@ -1,11 +1,12 @@
 ---
-- hosts: digital
+- name: Install Postgres and Redis on Ubuntu
+  hosts: digital
   become: true
-
-- name: Setup Portainer directory
-  ansible.builtin.file:
-    path: ~/docker-compose/environment
-    state: directory
+  tasks:
+  - name: Setup Portainer directory
+    ansible.builtin.file:
+      path: ~/docker-compose/environment
+      state: directory
     # mode: '0755'  # Optional file permissions
     # owner: ubuntu  # Optional ownership
     # group: ubuntu  # Optional group ownership
