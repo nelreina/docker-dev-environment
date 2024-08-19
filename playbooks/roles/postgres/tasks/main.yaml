@@ -1,29 +1,16 @@
 ---
-- name: Install Postgres and Redis on Ubuntu
-  hosts: digital
-  become: true
-  tasks:
-  - name: Setup Portainer directory
-    ansible.builtin.file:
-      path: ~/docker-compose/environment
-      state: directory
-    # mode: '0755'  # Optional file permissions
-    # owner: ubuntu  # Optional ownership
-    # group: ubuntu  # Optional group ownership
+- name: Setup Postgres directory
+  ansible.builtin.file:
+    path: ~/docker-compose/postgres
+    state: directory
 
-# - name: Deploy Portainer using Docker Compose
-#   ansible.builtin.template:
-#     src: "templates/docker_compose.yaml.j2"
-#     dest: "/home/ubuntu/docker-compose/portainer/docker-compose.yaml"
-#     mode: '0755'  # Optional file permissions
-#     owner: ubuntu  # Optional ownership
-#     group: ubuntu  # Optional group ownership
-#   notify:
-#     - Start Portainer
+- name: Copy docker-compose.yaml to Postgres directory
+  ansible.builtin.template:
+    src: "templates/docker-compose-postgres.yaml"
+    dest: "~/docker-compose/postgres/docker-compose.yaml"
 
-# - name: Run Portainer docker-compose up
-#   community.docker.docker_compose:
-#     project_src: /home/ubuntu/docker-compose/portainer
-#     state: present      
-      
+- name: Run Postgres docker-compose up
+  community.docker.docker_compose_v2:
+    project_src: ~/docker-compose/postgres
+    state: present
 

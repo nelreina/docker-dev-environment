@@ -6,29 +6,13 @@ services:
     environment:
       POSTGRES_DB: semaphore
       POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PASSWORD: {{ postgres_password }}
       POSTGRES_TIMEZONE: America/Curacao
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
-
-  pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
-    container_name: pocketbase
-    ports:
-      - "8090:8090"
-    volumes:
-      - pocketbase-data:/pb_data
-
-  redis:
-    image: redis/redis-stack:latest
-    container_name: redis
-    ports:
-      - "6379:6379"
-    restart: unless-stopped
-
 networks:
   default:
     name: local
@@ -36,6 +20,4 @@ networks:
 
 volumes:
   pocketbase-data:
-    driver: local
-  postgres_data:
     driver: local
