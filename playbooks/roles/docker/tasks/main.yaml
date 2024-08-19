@@ -1,50 +1,45 @@
 ---
-- name: Install Docker and Docker Compose on Ubuntu
-  hosts: digital
-  become: true
+- name: Update the package list
+  apt:
+    update_cache: yes
 
-  tasks:
-  - name: Update the package list
-    apt:
-      update_cache: yes
+- name: Install prerequisites
+  apt:
+    name: apt-transport-https,ca-certificates,curl,software-properties-common
+    state: present
 
-  - name: Install prerequisites
-    apt:
-      name: apt-transport-https,ca-certificates,curl,software-properties-common
-      state: present
+- name: Add Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
 
-  - name: Add Docker GPG key
-    apt_key:
-      url: https://download.docker.com/linux/ubuntu/gpg
-      state: present
+- name: Add Docker repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+    state: present
 
-  - name: Add Docker repository
-    apt_repository:
-      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
-      state: present
+- name: Install Docker
+  apt:
+    name: docker-ce
+    state: present
 
-  - name: Install Docker
-    apt:
-      name: docker-ce
-      state: present
+- name: Install Docker Compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
 
-  - name: Install Docker Compose
-    get_url:
-      url: https://github.com/docker/compose/releases/download/v2.12.2/docker-compose-Linux-x86_64
-      dest: /usr/local/bin/docker-compose
-      mode: 0755
+- name: Start Docker service
+  service:
+    name: docker
+    state: started
+    enabled: yes
 
-  - name: Start Docker service
-    service:
-      name: docker
-      state: started
-      enabled: yes
+- name: Enable Docker Compose
+  file:
+    path: /usr/local/bin/docker-compose
+    mode: 0755
 
-  - name: Enable Docker Compose
-    file:
-      path: /usr/local/bin/docker-compose
-      mode: 0755
-
-  - name: Create docker network
-    command: docker network create local
-    ignore_errors: yes
+- name: Create docker network
+  command: docker network create local
+  ignore_errors: yes
