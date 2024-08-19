@@ -9,9 +9,8 @@
     src: "templates/docker-compose-redis.yaml"
     dest: "~/docker-compose/redis/docker-compose.yaml"
 
-# - name: Run Portainer docker-compose up
-#   community.docker.docker_compose:
-#     project_src: /home/ubuntu/docker-compose/portainer
-#     state: present      
-      
+- name: Run Redis docker-compose up
+  community.docker.docker_compose:
+    project_src: ~/docker-compose/redis
+    state: present
 
