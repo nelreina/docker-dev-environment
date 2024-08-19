@@ -1,8 +1,6 @@
 ---
 - hosts: digital
   become: true
-  vars_files: 
-    - playbooks/vault.yml
   tasks:
     - name: Install Caddy
       ansible.builtin.package:
@@ -13,3 +11,7 @@
         name: caddy
         state: started
         enabled: yes
+
+    - name: Print the encrypted variable
+      debug:
+        msg: "{{ secret }}"
