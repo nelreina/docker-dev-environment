@@ -10,7 +10,7 @@
     dest: "~/docker-compose/redis/docker-compose.yaml"
 
 - name: Run Redis docker-compose up
-  community.docker.docker_compose:
+  community.docker.docker_composeV2:
     project_src: ~/docker-compose/redis
     state: present
 
