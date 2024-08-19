@@ -4,8 +4,9 @@ Create containers for local development
 
 ### Environments Services
 
-- Traefik for reverse proxy
-- Postgres DB (not working with traefik yet)
-- Redis Stack (not working with traefik yet)
+- Postgres DB
+- Redis Stack
 - SMTP4DEV
 - Pocketbase
+- caddy
+
