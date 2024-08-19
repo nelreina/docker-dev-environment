@@ -17,6 +17,8 @@ services:
   pocketbase:
     image: ghcr.io/muchobien/pocketbase:latest
     container_name: pocketbase
+    ports:
+      - "8090:8090"
     volumes:
       - pocketbase-data:/pb_data
 
@@ -25,6 +27,7 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+      - "8001:8001"
     restart: unless-stopped
 
   smtp4dev:

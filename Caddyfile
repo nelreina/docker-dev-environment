@@ -1,15 +1,15 @@
 pblocal.localhost {
-	reverse_proxy pocketbase:8090
+	reverse_proxy localhost:8090
 }
 
 smtp.localhost {
-	reverse_proxy smtp4dev:80
+	reverse_proxy localhost:3080
 }
 ansible.localhost {
-	reverse_proxy semaphore:3000
+	reverse_proxy localhost:3000
 }
 redis-local.localhost {
-	reverse_proxy redis:8001
+	reverse_proxy localhost:8001
 }
 
 jupyter.localhost {

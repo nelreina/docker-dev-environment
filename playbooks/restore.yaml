@@ -1,0 +1,13 @@
+---
+- hosts: digital
+  become: true
+  tasks:
+    - name: Remove Caddy
+      ansible.builtin.package:
+        name: caddy
+        state: absent
+    
+    - name: Remove Docker
+      ansible.builtin.package:
+        name: apt-transport-https,ca-certificates,curl,software-properties-common,docker-ce
+        state: absent
