@@ -1,6 +1,8 @@
 ---
 - hosts: digital
   become: true
+  vars_files: 
+    - playbooks/vault.yml
   tasks:
     - name: Install Caddy
       ansible.builtin.package:
