@@ -14,6 +14,5 @@
 
     - name: Print the encrypted variable
       debug:
-        msg: "{{ secret }}"
-      environment:
-        - IPHUB_STREAM: "{{ IPHUB_STREAM }}"
+        msg: "{{ myname }}"
+
