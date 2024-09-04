@@ -1,0 +1,8 @@
+---
+- name: Setup Base Environment
+  hosts: all
+  become: true
+  roles:
+    - docker
+    - redis
+    - postgres

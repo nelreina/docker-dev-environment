@@ -52,6 +52,9 @@ services:
       - 3000:3000
     container_name: semaphore
     image: semaphoreui/semaphore:latest
+    container_name: semaphore
+    volumes:
+      - .:/home/semaphore/repo
     environment:
       SEMAPHORE_DB_USER: postgres
       SEMAPHORE_DB_PASS: ${POSTGRES_PASSWORD}
