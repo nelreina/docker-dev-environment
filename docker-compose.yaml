@@ -52,6 +52,7 @@ services:
     restart: unless-stopped
     ports:
       - 3000:3000
+    container_name: semaphore
     image: semaphoreui/semaphore:latest
     environment:
       SEMAPHORE_DB_USER: postgres
@@ -75,6 +76,7 @@ networks:
     external: true
 
 volumes:
+  kafka-data:
   semaphore-postgres: # to use postgres, switch to: semaphore-postgres
   pocketbase-data:
     driver: local
