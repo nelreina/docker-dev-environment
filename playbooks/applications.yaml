@@ -1,6 +1,6 @@
 ---
 - name: Setup Base Environment
-  hosts: all
+  hosts: databases
   become: true
   roles:
     - docker
