@@ -1,5 +1,20 @@
-
 services:
+  dev-env-caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: dev-env-caddy
+    ports:
+      - 9000:80
+    volumes:
+      - ./dev/Caddyfile:/etc/caddy/Caddyfile
+
+  landing:
+    image: caddy:latest
+    container_name: landing
+    volumes:
+      - ./landing/index.html:/usr/share/caddy/index.html
+      - ./landing/Caddyfile:/etc/caddy/Caddyfile
+
   postgres:
     image: postgres:latest
     container_name: postgres-db
@@ -52,7 +67,6 @@ services:
       - 3000:3000
     container_name: semaphore
     image: semaphoreui/semaphore:latest
-    container_name: semaphore
     volumes:
       - .:/home/semaphore/repo
     environment:

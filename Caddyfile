@@ -1,18 +1,6 @@
-pblocal.localhost {
-	reverse_proxy localhost:8090
+insight.localhost {
+	reverse_proxy localhost:9002
 }
-
-smtp.localhost {
-	reverse_proxy localhost:3080
+dev-env.localhost {
+	reverse_proxy localhost:9000
 }
-ansible.localhost {
-	reverse_proxy localhost:3000
-}
-redis-local.localhost {
-	reverse_proxy localhost:8001
-}
-
-jupyter.localhost {
-	reverse_proxy localhost:10000
-}
-
