@@ -15,7 +15,7 @@ services:
     restart: unless-stopped
 
   pocketbase:
-    image: ghcr.io/muchobien/pocketbase:latest
+    image: ghcr.io/muchobien/pocketbase:0.23.6
     container_name: pocketbase
     ports:
       - "8090:8090"
@@ -27,7 +27,6 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
-      - "8001:8001"
     restart: unless-stopped
 
   smtp4dev:
@@ -42,9 +41,6 @@ services:
     image: caddy:latest
     restart: unless-stopped
     container_name: caddy
-    ports:
-      - 80:80
-      - 443:443
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile
 
@@ -72,7 +68,7 @@ services:
       - postgres # for postgres, change to: postgres
 networks:
   default:
-    name: traefik
+    name: local
     external: true
 
 volumes:
