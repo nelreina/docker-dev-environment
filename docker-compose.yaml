@@ -15,12 +15,13 @@ services:
     restart: unless-stopped
 
   pocketbase:
-    image: ghcr.io/muchobien/pocketbase:0.23.6
+    image: ghcr.io/muchobien/pocketbase:0.23.12
     container_name: pocketbase
     ports:
       - "8090:8090"
     volumes:
       - pocketbase-data:/pb_data
+    restart: unless-stopped
 
   redis:
     image: redis/redis-stack:latest
