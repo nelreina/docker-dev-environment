@@ -14,10 +14,4 @@ onRecordAfterUpdateSuccess((e) => {
     console.log(error)
   }
   e.next()
-}, "template_vars",
-  "templates",
-  "projects",
-  "project_vars",
-  "target_systems",
-  "yno_mapping",
-  "yno_routing_rules")
+})
