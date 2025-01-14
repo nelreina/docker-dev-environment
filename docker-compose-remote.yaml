@@ -1,0 +1,64 @@
+services:
+  dev-env-caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: dev-env-caddy
+    ports:
+      - 9000:80
+    volumes:
+      - ./dev/Caddyfile:/etc/caddy/Caddyfile
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_DB: ynohub
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_TIMEZONE: America/Curacao
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  pocketbase:
+    image: ghcr.io/muchobien/pocketbase:0.24.3
+    container_name: pocketbase
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./pb-iso-data:/pb_data
+      - ./pb-hooks:/pb_hooks
+    restart: unless-stopped
+
+  redis:
+    image: redis/redis-stack-server:latest
+    container_name: redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  smtp4dev:
+    image: rnwood/smtp4dev:latest
+    container_name: smtp4dev
+    ports:
+      - "3080:80"
+      - "2525:25"
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:latest
+    restart: unless-stopped
+    container_name: caddy
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+
+networks:
+  default:
+    name: local
+    external: true
+
+volumes:
+  postgres_data:
+    driver: local
