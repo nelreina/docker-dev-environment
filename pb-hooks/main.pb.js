@@ -17,3 +17,7 @@ onRecordAfterDeleteSuccess((e) => {
   utils.notify(e, "Deleted")
   e.next()
 })
+// prints "Hello!" every 2 minutes
+// cronAdd("TestCronLocal", "*/2 * * * *", () => {
+//     console.log("Hello!")
+// })

@@ -30,12 +30,22 @@ services:
     restart: unless-stopped
 
   pocketbase:
-    image: ghcr.io/muchobien/pocketbase:0.24.3
+    image: ghcr.io/muchobien/pocketbase:0.25.3
     container_name: pocketbase
     ports:
       - "8090:8090"
     volumes:
       - ./pb-iso-data:/pb_data
+      - ./pb-hooks:/pb_hooks
+    restart: unless-stopped
+
+  pocketbase-lcmbv:
+    image: ghcr.io/muchobien/pocketbase:0.25.3
+    container_name: pocketbase-lcmbv
+    ports:
+      - "8091:8090"
+    volumes:
+      - ./pb-lcm-data:/pb_data
       - ./pb-hooks:/pb_hooks
     restart: unless-stopped
 

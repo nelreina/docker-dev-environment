@@ -23,7 +23,7 @@ services:
     restart: unless-stopped
 
   pocketbase:
-    image: ghcr.io/muchobien/pocketbase:0.24.3
+    image: ghcr.io/muchobien/pocketbase:0.25.3
     container_name: pocketbase
     ports:
       - "8090:8090"
