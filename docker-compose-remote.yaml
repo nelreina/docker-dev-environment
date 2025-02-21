@@ -8,6 +8,18 @@ services:
     volumes:
       - ./dev/Caddyfile:/etc/caddy/Caddyfile
 
+  artemis:
+    image: apache/activemq-artemis:2.39.0
+    platform: linux/amd64
+    ports:
+      - "61616:61616"
+      - "8161:8161"
+    container_name: artemis
+    restart: unless-stopped
+    environment:
+      ARTEMIS_USER: ${ARTEMIS_USER}
+      ARTEMIS_PASSWORD: ${ARTEMIS_PASSWORD}
+
   postgres:
     image: postgres:latest
     container_name: postgres-db
