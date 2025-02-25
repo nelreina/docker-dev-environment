@@ -1,24 +1,4 @@
 services:
-  dev-env-caddy:
-    image: caddy:latest
-    restart: unless-stopped
-    container_name: dev-env-caddy
-    ports:
-      - 9000:80
-    volumes:
-      - ./dev/Caddyfile:/etc/caddy/Caddyfile
-
-  artemis:
-    image: apache/activemq-artemis:2.39.0-alpine
-    #platform: linux/amd64
-    ports:
-      - "61616:61616"
-      - "8161:8161"
-    container_name: artemis
-    restart: unless-stopped
-    environment:
-      ARTEMIS_USER: ${ARTEMIS_USER}
-      ARTEMIS_PASSWORD: ${ARTEMIS_PASSWORD}
 
   postgres:
     image: postgres:latest
@@ -47,8 +27,6 @@ services:
   redis:
     image: redis/redis-stack-server:latest
     container_name: redis
-    ports:
-      - "6379:6379"
     restart: unless-stopped
 
   smtp4dev:
@@ -59,12 +37,6 @@ services:
       - "2525:25"
     restart: unless-stopped
 
-  caddy:
-    image: caddy:latest
-    restart: unless-stopped
-    container_name: caddy
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
 
 networks:
   default:
