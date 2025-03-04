@@ -28,6 +28,13 @@ services:
     image: redis/redis-stack-server:latest
     container_name: redis
     restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+    command: redis-server --requirepass ${REDIS_PASSWORD}
 
   smtp4dev:
     image: rnwood/smtp4dev:latest
@@ -44,5 +51,7 @@ networks:
     external: true
 
 volumes:
+  redis_data:
+    driver: local
   postgres_data:
     driver: local
