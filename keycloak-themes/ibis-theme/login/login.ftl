@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <title>${msg("Log In", "Login")}</title>
   <link rel="icon" href="${url.resourcesPath}/img/logo-ibis.png" type="image/png"/>
-  <link rel="stylesheet" href="${url.resourcesPath}/css/mytheme.css"/>
+  <link rel="stylesheet" href="${url.resourcesPath}/css/ibis-theme.css"/>
 </head>
 <body>
   <div class="kc-app">
