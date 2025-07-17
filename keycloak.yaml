@@ -1,0 +1,38 @@
+services:
+  keycloak:
+    image: bitnami/keycloak:latest
+    environment:
+      KEYCLOAK_DATABASE_VENDOR: postgresql
+      KEYCLOAK_DATABASE_HOST: postgres-db
+      KEYCLOAK_DATABASE_PORT: 5432
+      KEYCLOAK_DATABASE_USER: postgres
+      KEYCLOAK_DATABASE_NAME: keycloak
+      KEYCLOAK_FRONTEND_URL: "https://keycloak.ibis-lab.com"
+      KEYCLOAK_PRODUCTION: true
+      KEYCLOAK_ENABLE_TLS: true
+      KEYCLOAK_PROXY_ADDRESS_FORWARDING: true
+      KEYCLOAK_PROXY: edge
+      PROXY_ADDRESS_FORWARDING: true
+      KEYCLOAK_DATABASE_PASSWORD: ${POSTGRES_PASSWORD}
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${KEYCLOAK_PASSWORD}
+      KEYCLOAK_EXTRA_ARGS: --spi-content-security-policy-provider=hardcoded-content-security-policy-provider
+      KEYCLOAK_CONTENT_SECURITY_POLICY: "frame-src 'self' https://keycloak.ibis-lab.com; frame-ancestors 'self'; object-src 'none';"
+      KC_HOSTNAME: "https://keycloak.ibis-lab.com"
+    container_name: keycloak
+    # platform: linux/amd64
+    ports:
+      - 8080:8080
+    volumes:
+      - keycloak_data:/opt/jboss/keycloak/standalone/data
+      - keycloak_config:/opt/jboss/keycloak/standalone/configuration
+      - ./keycloak-themes/ibis-theme:/opt/bitnami/keycloak/themes/ibis-theme
+
+volumes:
+  keycloak_data:
+  keycloak_config:
+
+networks:
+  default:
+    name: local
+    external: true
