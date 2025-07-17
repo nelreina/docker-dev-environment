@@ -1,5 +1,3 @@
-<#-- Minimal login.ftl without common.ftl import -->
-
 <!DOCTYPE html>
 <html lang="${locale!}">
 <head>
