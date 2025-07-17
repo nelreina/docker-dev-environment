@@ -1,0 +1,79 @@
+/* Color palette based on ibis-management.com */
+:root {
+  --ibis-purple: #5a2e8a;
+  --ibis-gradient: linear-gradient(135deg, #7c3cab, #421f58);
+  --card-bg: #ffffff;
+  --text-color: #333333;
+  --btn-text: #ffffff;
+}
+
+/* Page & wrapper */
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background: var(--ibis-gradient);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--text-color);
+}
+.kc-app {
+  width: 100%;
+}
+.kc-login-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+.kc-form-card {
+  background: var(--card-bg);
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  width: 350px;
+  padding: 2rem;
+  text-align: center;
+}
+.logo {
+  max-width: 200px;
+  margin-bottom: 1.5rem;
+}
+
+/* Inputs & form */
+.kc-form-group {
+  margin-bottom: 1rem;
+  text-align: left;
+}
+.kc-form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+.kc-form-group input {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* Button */
+.kc-button {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--ibis-purple);
+  border: none;
+  border-radius: 4px;
+  color: var(--btn-text);
+  font-size: 1rem;
+  cursor: pointer;
+}
+.kc-button:hover {
+  background: darken(var(--ibis-purple), 10%);
+}
+
+/* Footer */
+.kc-footer {
+  margin-top: 1.5rem;
+  font-size: 0.875rem;
+  color: #777;
+}
+
