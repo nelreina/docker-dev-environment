@@ -20,7 +20,7 @@
     </form>
 
     <div class="login-footer">
-      <p>Need help? Call 888-CALL-FGB</p>
+      <p>© ${.now?string("yyyy")} First Global Bank</p>
     </div>
   </div>
 </body>
