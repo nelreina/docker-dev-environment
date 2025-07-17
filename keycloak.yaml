@@ -27,6 +27,7 @@ services:
       - keycloak_data:/opt/jboss/keycloak/standalone/data
       - keycloak_config:/opt/jboss/keycloak/standalone/configuration
       - ./keycloak-themes/ibis-theme:/opt/bitnami/keycloak/themes/ibis-theme
+      - ./keycloak-themes/fbg-theme:/opt/bitnami/keycloak/themes/fbg-theme
 
 volumes:
   keycloak_data:
